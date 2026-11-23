@@ -1,36 +1,42 @@
-# 🚛 Jorge the Truck Driver — Catálogo de versões
+# 🚛 Jorge the Truck Driver — HTML Normal
 
-Este é o ponto de entrada do projeto. **As cinco versões estão organizadas separadamente.**
-O jogo normal no site continua sendo o `index.html` da raiz.
+> **Esta é somente a versão HTML normal do jogo.** Os outros quatro jogos têm seus próprios repositórios. Não copie APKs, ROMs nem código de outra plataforma para cá.
 
-| Versão | Onde encontrar | Como jogar |
+### ▶ Jogar
+
+**[ABRIR O JOGO ONLINE](https://jorgethetruckdriver.vercel.app/)**
+
+**Arquivo principal:** [`index.html`](index.html), sem bibliotecas externas. Abra no Chrome, Edge ou outro navegador moderno. No PC, clique **⛶ Tela cheia** para usar o monitor inteiro, sem bordas laterais.
+
+### 📂 Todas as versões — escolha a sua
+
+| Plataforma | Repositório | Descrição |
 |---|---|---|
-| 🌐 HTML normal | [versoes/html-normal](versoes/html-normal/) | [Site oficial](https://jorgethetruckdriver.vercel.app/) |
-| 🟦 HTML Pixel Art | [versoes/html-pixel](versoes/html-pixel/) | [Arquivo HTML da versão Pixel](versoes/html-pixel/index.html) |
-| 📱 Android normal | [versoes/android-normal](versoes/android-normal/) | [Código Android normal](https://github.com/alan102168/jorge-truck-driver-android/tree/android-normal) |
-| 📱 Android Pixel Art | [versoes/android-pixel](versoes/android-pixel/) | [Código Android Pixel](https://github.com/alan102168/jorge-truck-driver-android/tree/android-pixel) |
-| 🎮 ROM Mega Drive Pixel Art | [versoes/rom-pixel](versoes/rom-pixel/) | [Código da ROM](https://github.com/alan102168/jogo-sest-senat-2d-caminhao/tree/rom-pixel-art/megadrive) |
+| 🌐 HTML Normal | [jogo-sest-senat-2d-caminhao](https://github.com/alan102168/jogo-sest-senat-2d-caminhao) | Jogar no navegador |
+| 🟦 HTML Pixel Art | [jorge-html-pixel](https://github.com/alan102168/jorge-html-pixel) | HTML de navegador, efeito pixelado |
+| 📱 Android Normal | [jorge-android-normal](https://github.com/alan102168/jorge-android-normal) | APK com visual original |
+| 📱 Android Pixel Art | [jorge-truck-driver-android](https://github.com/alan102168/jorge-truck-driver-android) | APK Pixel Edition |
+| 🎮 Mega Drive Pixel Art | [jorge-megadrive-pixel](https://github.com/alan102168/jorge-megadrive-pixel) | ROM .bin para emulador compatível |
 
-## Abrir / baixar versões
+### 🕹 Controles desta versão
 
-**HTML normal:** [Jogar online](https://jorgethetruckdriver.vercel.app/) — [Código](versoes/html-normal/index.html).
+- **D / seta direita:** acelerar.
+- **A / seta esquerda:** frear.
+- **W / seta para cima:** subir de faixa.
+- **S / seta para baixo:** descer de faixa.
+- **P:** pausar.
+- Celular: use os botões na tela.
+- Tela cheia: botão **⛶ Tela cheia** ou **Esc** para sair.
 
-**HTML Pixel Art:** [Código HTML](versoes/html-pixel/index.html) — baixar o `index.html` dessa pasta e abrir no navegador.
+### 🔧 Para editar
 
-**Android normal:** [Releases de APK](https://github.com/alan102168/jorge-truck-driver-android/releases) — [branch Android normal](https://github.com/alan102168/jorge-truck-driver-android/tree/android-normal).
+1. Abra [`index.html`](index.html). É o único arquivo do jogo nesta versão.
+2. Faça suas mudanças apenas **neste repositório**, sem mexer nas outras edições.
+3. O site da Vercel utiliza o arquivo da raiz; publicar uma alteração nesta branch pode atualizar o site.
+4. Consulte [o teste automático do HTML](.github/workflows/verificar-html.yml) antes de divulgar.
 
-**Android Pixel Art:** [Releases de APK](https://github.com/alan102168/jorge-truck-driver-android/releases) — [branch Android Pixel](https://github.com/alan102168/jorge-truck-driver-android/tree/android-pixel).
+### ℹ️ Estado de desenvolvimento
 
-**ROM Pixel Art:** [Releases da ROM](https://github.com/alan102168/jogo-sest-senat-2d-caminhao/releases) — [branch ROM Pixel](https://github.com/alan102168/jogo-sest-senat-2d-caminhao/tree/rom-pixel-art). Requer um emulador Mega Drive compatível no Game Stick.
+A página ajusta o tamanho do jogo para desktop e celular, sem cortar a pista. O botão de tela cheia preenche todo o monitor (em telas ultralargas pode esticar um pouco a proporção). O funcionamento em navegadores e aparelhos específicos ainda exige teste real.
 
-## Separação segura
-
-- `index.html` na raiz e `versoes/html-normal/index.html`: HTML normal.
-- `versoes/html-pixel/index.html`: HTML Pixel Art para PC/celular.
-- Repositório Android, branch `android-normal`: APK original.
-- Repositório Android, branch `android-pixel`: APK Pixel Art (ID de app independente).
-- Branch `rom-pixel-art`: jogo nativo SGDK para Mega Drive, ROM `.bin` e capa `.png`.
-
-Cada ramo Android tem sua compilação GitHub Actions. O arquivo HTML Pixel Art **não é uma ROM**. A ROM é feita em C para Mega Drive. A compatibilidade com M8 Lite precisa ser testada no aparelho.
-
-[📂 Abrir menu das versões](versoes/)
+Alguns ramos antigos e versões antigas permanecem no histórico do GitHub apenas como backup; **a versão atual é a branch `main`**.
