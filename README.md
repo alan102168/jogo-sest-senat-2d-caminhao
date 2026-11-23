@@ -25,6 +25,7 @@
 - **W / seta para cima:** subir de faixa.
 - **S / seta para baixo:** descer de faixa.
 - **P:** pausar.
+- Controles Xbox, PlayStation e genéricos reconhecidos pela Gamepad API: direção nos analógicos/direcional, gatilhos para acelerar/frear e Start para pausar.
 - Celular: use os botões na tela.
 - Tela cheia: botão **⛶ Tela cheia** ou **Esc** para sair.
 
