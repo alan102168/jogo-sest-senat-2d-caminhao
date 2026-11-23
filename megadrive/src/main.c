@@ -1,5 +1,4 @@
 #include <genesis.h>
-#include <stdio.h>
 
 // Jorge the Truck Driver - edicao Mega Drive (SGDK).
 // O jogo de navegador permanece independente na branch main.
@@ -14,9 +13,9 @@ typedef struct {
     u8 lane;
     u8 kind;  // 0 = caixa, 1 = obstaculo
     u8 active;
-} Object;
+} TruckObject;
 
-static Object objects[OBJECTS];
+static TruckObject objects[OBJECTS];
 static const u16 laneY[LANES] = {9, 13, 17};
 static u16 randomSeed = 0x2567;
 static u16 frame = 0;
@@ -68,7 +67,7 @@ static void stepGame(void)
     u16 i;
     for (i = 0; i < OBJECTS; i++)
     {
-        Object *o = &objects[i];
+        TruckObject *o = &objects[i];
         if (!o->active) continue;
         o->x--;
 
