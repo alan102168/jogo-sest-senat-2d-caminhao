@@ -40,4 +40,6 @@
 
 A página ajusta o tamanho do jogo para desktop e celular, sem cortar a pista. O botão de tela cheia preenche todo o monitor (em telas ultralargas pode esticar um pouco a proporção). O funcionamento em navegadores e aparelhos específicos ainda exige teste real.
 
+**Aviso sobre Releases antigos:** as ROMs Mega Drive que aparecem nos Releases deste repositório são históricas. Para baixar uma ROM atual, use exclusivamente [o repositório Mega Drive Pixel Art](https://github.com/alan102168/jorge-megadrive-pixel/releases).
+
 Alguns ramos antigos e versões antigas permanecem no histórico do GitHub apenas como backup; **a versão atual é a branch `main`**.
