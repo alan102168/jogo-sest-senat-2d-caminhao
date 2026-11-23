@@ -1,8 +1,8 @@
-name: Gerar ROM Mega Drive para M8 Lite
+name: ROM Pixel Art - Mega Drive M8 Lite
 
 on:
   push:
-    branches: [megadrive-m8-lite]
+    branches: [rom-pixel-art]
     paths:
       - "megadrive/**"
       - ".github/workflows/megadrive-rom.yml"
@@ -58,11 +58,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          VERSION="megadrive-v1.0.${{ github.run_number }}"
+          VERSION="rom-pixel-v2.0.${{ github.run_number }}"
           gh release create "$VERSION" \
             megadrive/dist/Jorge_Truck_Driver.bin \
             megadrive/dist/Jorge_Truck_Driver.png \
             megadrive/dist/Jorge_Truck_Driver_M8_Lite.zip \
             --target "$GITHUB_SHA" \
             --title "Jorge Truck Driver - Mega Drive (M8 Lite) $VERSION" \
-            --notes "Primeiro prototipo 16 bits do Jorge, compilado com SGDK para Mega Drive. A compatibilidade com cada revisao do M8 Lite ainda precisa ser testada no aparelho. Nao substitua os arquivos do sistema do Game Stick."
+            --notes "Versao Pixel Art 16 bits do Jorge, compilado com SGDK para Mega Drive. A compatibilidade com cada revisao do M8 Lite ainda precisa ser testada no aparelho. Nao substitua os arquivos do sistema do Game Stick."
