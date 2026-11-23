@@ -21,6 +21,7 @@ jobs:
       - name: Compilar jogo de Mega Drive usando SGDK
         run: |
           docker run --rm \
+            --user "$(id -u):$(id -g)" \
             -v "$PWD/megadrive:/m68k" \
             registry.gitlab.com/doragasu/docker-sgdk:v2.00
           test -s megadrive/out/rom.bin
