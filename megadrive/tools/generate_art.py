@@ -157,10 +157,10 @@ header=("/* Arquivo GERADO automaticamente por tools/generate_art.py. Nao editar
 
 # Preview com os mesmos sprites e cenarios que serao compilados na ROM.
 preview=bg.convert("RGB")
-mask=truck.point(lambda v:255 if v else 0)
+mask=truck.convert('L').point(lambda v:255 if v else 0)
 preview.paste(truck.convert("RGB"),(40,115),mask)
 for im,x,y in [(crate,244,113),(rock,170,155),(cone,263,190),(crate,294,190)]:
-    mask=im.point(lambda v:255 if v else 0)
+    mask=im.convert('L').point(lambda v:255 if v else 0)
     preview.paste(im.convert("RGB"),(x,y),mask)
 preview.resize((960,672),Image.Resampling.NEAREST).save(ROOT/"dist"/"preview-pixelart.png")
 atlas=blank(112,32)
