@@ -18,6 +18,18 @@ jobs:
       - name: Baixar codigo
         uses: actions/checkout@v4
 
+      - name: Preparar Python para artes 16 bits
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Gerar tiles, sprites e preview pixel art
+        run: |
+          python -m pip install pillow
+          python megadrive/tools/generate_art.py
+          test -s megadrive/src/graphics.h
+          test -s megadrive/dist/preview-pixelart.png
+
       - name: Compilar jogo de Mega Drive usando SGDK
         run: |
           docker run --rm \
@@ -28,14 +40,8 @@ jobs:
           mkdir -p megadrive/dist
           cp megadrive/out/rom.bin megadrive/dist/Jorge_Truck_Driver.bin
 
-      - name: Preparar Python para capa PNG
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
       - name: Criar capa e verificar ROM
         run: |
-          python -m pip install pillow
           python megadrive/tools/create_cover.py
           python megadrive/tools/verify_rom.py megadrive/dist/Jorge_Truck_Driver.bin
           cd megadrive/dist
