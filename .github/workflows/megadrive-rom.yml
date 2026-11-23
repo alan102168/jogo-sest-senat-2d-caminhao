@@ -1,0 +1,61 @@
+name: Gerar ROM Mega Drive para M8 Lite
+
+on:
+  push:
+    branches: [megadrive-m8-lite]
+    paths:
+      - "megadrive/**"
+      - ".github/workflows/megadrive-rom.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Compilar jogo de Mega Drive usando SGDK
+        run: |
+          docker run --rm \
+            -v "$PWD/megadrive:/m68k" \
+            registry.gitlab.com/doragasu/docker-sgdk:v2.00
+          test -s megadrive/out/rom.bin
+          mkdir -p megadrive/dist
+          cp megadrive/out/rom.bin megadrive/dist/Jorge_Truck_Driver.bin
+
+      - name: Preparar Python para capa PNG
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Criar capa e verificar ROM
+        run: |
+          python -m pip install pillow
+          python megadrive/tools/create_cover.py
+          python megadrive/tools/verify_rom.py megadrive/dist/Jorge_Truck_Driver.bin
+          cd megadrive/dist
+          zip -9 Jorge_Truck_Driver_M8_Lite.zip Jorge_Truck_Driver.bin Jorge_Truck_Driver.png
+
+      - name: Anexar ROM, capa e pacote para download
+        uses: actions/upload-artifact@v4
+        with:
+          name: Jorge-MegaDrive-M8-Lite
+          path: megadrive/dist/
+          if-no-files-found: error
+
+      - name: Publicar no GitHub Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="megadrive-v1.0.${{ github.run_number }}"
+          gh release create "$VERSION" \
+            megadrive/dist/Jorge_Truck_Driver.bin \
+            megadrive/dist/Jorge_Truck_Driver.png \
+            megadrive/dist/Jorge_Truck_Driver_M8_Lite.zip \
+            --target "$GITHUB_SHA" \
+            --title "Jorge Truck Driver - Mega Drive (M8 Lite) $VERSION" \
+            --notes "Primeiro prototipo 16 bits do Jorge, compilado com SGDK para Mega Drive. A compatibilidade com cada revisao do M8 Lite ainda precisa ser testada no aparelho. Nao substitua os arquivos do sistema do Game Stick."
