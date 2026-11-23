@@ -153,6 +153,7 @@ html:fullscreen #hud span {
   </div>
 </div>
 <p>D / → Acelerar | A / ← Frear | W / ↑ Faixa de cima | S / ↓ Faixa de baixo | P Pausar</p>
+<p>🎮 Controle: RT/R2 acelerar | LT/L2 frear | Direcional/analógico ↑↓ faixa | A/X iniciar | Start/Options pausar</p>
 <div id="botoes">
   <button id="frear">◀ FREAR</button>
   <button id="subir">⬆ FAIXA</button>
@@ -268,6 +269,44 @@ botao("frear","a");
 botao("subir","_u",()=>mudarFaixa(-1));
 botao("descer","_d",()=>mudarFaixa(1));
 
+// ---------- CONTROLES USB / BLUETOOTH / WIRELESS ----------
+// Gamepad API: controles Xbox, PlayStation e genéricos reconhecidos pelo navegador.
+// O teclado continua funcionando ao mesmo tempo.
+let controleAnterior={subir:false,descer:false,iniciar:false,pausar:false,reiniciar:false};
+let controleIndice=null;
+function lerControles(){
+  let lista=[]; try{lista=navigator.getGamepads?navigator.getGamepads():[]}catch(e){lista=[];}
+  let gp=null;
+  for(const item of lista){if(item&&item.connected){gp=item;break}}
+  if(!gp){
+    controleIndice=null;
+    teclas.gpAcelerar=false;teclas.gpFrear=false;
+    controleAnterior={subir:false,descer:false,iniciar:false,pausar:false,reiniciar:false};
+    return;
+  }
+  controleIndice=gp.index;
+  const botao=i=>Boolean(gp.buttons[i]&&gp.buttons[i].pressed);
+  const valor=i=>gp.buttons[i]?gp.buttons[i].value:0;
+  const eixoVertical=gp.axes.length>1?gp.axes[1]:0;
+  const cima=botao(12)||eixoVertical<-.55;
+  const baixo=botao(13)||eixoVertical>.55;
+  // RT/R2 e LT/L2; gatilhos analógicos também são aceitos.
+  teclas.gpAcelerar=botao(7)||valor(7)>.15||botao(5);
+  teclas.gpFrear=botao(6)||valor(6)>.15||botao(4);
+  const iniciarJogo=botao(0)||(gp.mapping!=="standard"&&botao(1)); // A (Xbox), X (PlayStation), botão principal
+  const pausa=botao(9)||(gp.mapping!=="standard"&&botao(8));       // Menu / Options / Start
+  const reiniciarJogo=botao(3); // Y / Triângulo (mapeamento padrão)
+  if(cima&&!controleAnterior.subir)mudarFaixa(-1);
+  if(baixo&&!controleAnterior.descer)mudarFaixa(1);
+  if(iniciarJogo&&!controleAnterior.iniciar&&!jogando)iniciar();
+  if(pausa&&!controleAnterior.pausar&&jogando)pausado=!pausado;
+  if(reiniciarJogo&&!controleAnterior.reiniciar&&jogando)iniciar();
+  controleAnterior={subir:cima,descer:baixo,iniciar:iniciarJogo,pausar:pausa,reiniciar:reiniciarJogo};
+}
+window.addEventListener("gamepaddisconnected",()=>{
+  teclas.gpAcelerar=false;teclas.gpFrear=false;
+});
+
 // Botões desenhados no canvas (reiniciar, som, pausa)
 const botoesCanvas=[{x:748,k:"reiniciar"},{x:808,k:"som"},{x:868,k:"pausa"}];
 canvas.addEventListener("pointerdown",e=>{
@@ -358,8 +397,8 @@ function atualizar(dt){
     som(660,.25,"triangle",.06);
   }
 
-  if(teclas.d||teclas.arrowright)velocidade+=90*dt;else velocidade-=24*dt;
-  if(teclas.a||teclas.arrowleft)velocidade-=160*dt;
+  if(teclas.d||teclas.arrowright||teclas.gpAcelerar)velocidade+=90*dt;else velocidade-=24*dt;
+  if(teclas.a||teclas.arrowleft||teclas.gpFrear)velocidade-=160*dt;
   const maxVel=Math.min(180,110+fase*8);
   velocidade=limitar(velocidade,0,maxVel);
 
@@ -1132,7 +1171,7 @@ function desenhar(){
 function loop(agora){
   const dt=ultimo?Math.min((agora-ultimo)/1000,.04):0;
   ultimo=agora;
-  try{atualizar(dt);desenhar()}catch(e){console.error(e)}
+  try{lerControles();atualizar(dt);desenhar()}catch(e){console.error(e)}
   requestAnimationFrame(loop);
 }
 
